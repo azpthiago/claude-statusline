@@ -3,8 +3,8 @@
 Barra de status em duas linhas para o [Claude Code](https://claude.com/claude-code): limites de uso, conta logada, horário de reset e estado da sessão, alinhados em grade.
 
 ```
-◆ Opus 5 (1M context)   │ effort medium                        │ ▸ claude-statusline ⑂ main   │ ctx ▰▱▱▱▱▱ 20%  198k/1M
-◇ Ana Silva · Acme Labs │ 7d ▰▱▱▱▱▱ 5%   ↻ 20/09 18:00 (5d04h) │ 5h ▰▰▱▱▱▱ 26%  ↻ 13:30 (14m) │ +128 -34 · ◷ 13:15
+◆ Opus 5 (1M context)   │ effort medium                        │ ▸ claude-statusline ⑂ main  │ ctx ▰▱▱▱▱▱ 20%  198k/1M
+◇ Thiago Paz · AZP Tech │ 7d ▰▱▱▱▱▱ 5%   ↻ 20/09 18:00 (5d04h) │ 5h ▰▰▱▱▱▱ 26%  ↻ 13:30 (25m) │ +128 -34 · ◷ 13:05
 ```
 
 ## Instalação
@@ -25,7 +25,7 @@ git clone https://github.com/azpthiago/claude-statusline.git
 cd claude-statusline && node scripts/setup.js
 ```
 
-Requer Node.js 18+. Reinicie o Claude Code ao terminar.
+Requer Node.js 18+. Reinicie o Claude Code ao terminar. O instalador mostra ao final uma amostra da barra, com valores de exemplo — nunca com os dados da sua conta.
 
 O instalador copia `statusline.js` para `~/.claude/` e registra a chave `statusLine` no `settings.json`, preservando o resto do arquivo e gravando um backup antes de escrever.
 

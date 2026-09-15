@@ -188,7 +188,8 @@ function gitBranch(dir) {
 
 // ---------- montagem ----------
 function build(input) {
-  const oauth = (readJSON(path.join(HOME, '.claude.json'), {}) || {}).oauthAccount || {};
+  // input.account existe para previews e demonstracoes; o normal e ler a conta local
+  const oauth = input.account || (readJSON(path.join(HOME, '.claude.json'), {}) || {}).oauthAccount || {};
   const now = new Date();
 
   // ---- coluna 1: modelo | conta ----
@@ -223,7 +224,7 @@ function build(input) {
   const dir = (input.workspace && (input.workspace.current_dir || input.workspace.project_dir)) || input.cwd;
   let c3a = '';
   if (dir) {
-    const branch = gitBranch(dir);
+    const branch = (input.workspace && input.workspace.branch) || gitBranch(dir);
     c3a = c(C.blue, '▸ ' + truncate(path.basename(dir), 20));
     if (branch) c3a += c(C.green, ' ⑂ ' + truncate(branch, 16));
   }

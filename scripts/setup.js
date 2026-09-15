@@ -86,12 +86,16 @@ const fail = (msg) => {
  * Amostra do resultado: executa a propria barra com um payload de exemplo,
  * em vez de imitar a saida — o que voce ve aqui e exatamente o que o Claude
  * Code vai desenhar, alinhamento incluido.
+ *
+ * Todos os valores sao ficticios, inclusive a conta: a amostra ilustra o
+ * formato e nunca expoe os dados da maquina onde a instalacao roda.
  */
 function preview(scriptPath) {
   const now = Math.floor(Date.now() / 1000);
   const sample = {
     model: { id: 'claude-opus-5[1m]', display_name: 'Opus 5 (1M context)' },
-    workspace: { current_dir: process.cwd() },
+    account: { displayName: 'Thiago Paz', organizationName: 'AZP Tech' },
+    workspace: { current_dir: 'claude-statusline', branch: 'main' },
     effort: { level: 'medium' },
     cost: { total_lines_added: 128, total_lines_removed: 34 },
     context_window: { used_percentage: 20, context_window_size: 1000000, total_input_tokens: 198000 },
