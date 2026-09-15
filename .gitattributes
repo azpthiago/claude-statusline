@@ -1,0 +1,5 @@
+# normaliza finais de linha entre Windows, Linux e macOS
+* text=auto eol=lf
+
+# scripts que precisam do final de linha nativo do Windows
+*.ps1 text eol=crlf

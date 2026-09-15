@@ -1,0 +1,9 @@
+# artefatos locais do Claude Code
+statusline.config.json
+statusline-cache.json
+settings.json.backup-*
+
+# sistema
+.DS_Store
+Thumbs.db
+node_modules/
