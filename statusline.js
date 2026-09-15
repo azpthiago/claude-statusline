@@ -61,6 +61,15 @@ function fmtDur(ms) {
   return h > 0 ? h + 'h' + String(totalMin % 60).padStart(2, '0') : totalMin + 'm';
 }
 
+// o payload manda percentuais em ponto flutuante (28.000000000000004), entao arredonda sempre
+function fmtPct(n) {
+  const p = Number(n);
+  if (!isFinite(p)) return '—';
+  if (p > 0 && p < 1) return '<1%';
+  if (p < 100 && Math.round(p) >= 100) return '99%'; // 99,6% ainda nao e o limite
+  return Math.round(p) + '%';
+}
+
 function hhmm(d) {
   return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
 }
@@ -147,11 +156,17 @@ function bar(pct, width) {
  * Sem o campo (versao antiga do Claude Code), mostra "n/d" em vez de inventar.
  */
 function limitSeg(label, window, opts) {
-  if (!window || typeof window.used_percentage !== 'number') {
+  const hasPct = window && typeof window.used_percentage === 'number' && isFinite(window.used_percentage);
+  // sem a janela inteira nao ha o que mostrar; com o reset mas sem percentual, mostra ao menos o reset
+  if (!window || (!hasPct && !window.resets_at)) {
     return c(C.gray, label + ' ') + c(C.dim, 'n/d');
   }
-  const pct = window.used_percentage;
-  let out = c(C.gray, label + ' ') + bar(pct, 6) + ' ' + c(colorFor(pct), padTo(pct + '%', 4));
+
+  const pct = hasPct ? window.used_percentage : 0;
+  let out = c(C.gray, label + ' ');
+  out += hasPct
+    ? bar(pct, 6) + ' ' + c(colorFor(pct), padTo(fmtPct(pct), 4))
+    : c(C.dim, padTo('n/d', 11));
 
   if (window.resets_at) {
     const reset = new Date(window.resets_at * 1000);
@@ -240,7 +255,7 @@ function build(input) {
       c(C.gray, 'ctx ') +
       bar(cw.used_percentage, 6) +
       ' ' +
-      c(colorFor(cw.used_percentage), padTo(cw.used_percentage + '%', 4)) +
+      c(colorFor(cw.used_percentage), padTo(fmtPct(cw.used_percentage), 4)) +
       c(C.dim, ' ' + fmtTokens(used) + '/' + fmtTokens(size));
   }
 
