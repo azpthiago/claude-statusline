@@ -35,7 +35,7 @@ if (-not $srcDir -or -not (Test-Path (Join-Path $srcDir 'scripts\setup.js'))) {
     $temp = Join-Path ([System.IO.Path]::GetTempPath()) ("claude-statusline-" + [guid]::NewGuid().ToString('N').Substring(0, 8))
     New-Item -ItemType Directory -Path (Join-Path $temp 'scripts') -Force | Out-Null
     Write-Host "baixando de $repo ..."
-    foreach ($f in @('statusline.js', 'statusline.config.example.json', 'scripts/setup.js')) {
+    foreach ($f in @('statusline.js', 'scripts/setup.js')) {
         $dest = Join-Path $temp ($f -replace '/', '\')
         Invoke-WebRequest -Uri "$raw/$f" -OutFile $dest -UseBasicParsing
     }

@@ -27,7 +27,7 @@ else
   CLEANUP="$SRC"
   mkdir -p "$SRC/scripts"
   echo "baixando de $REPO ..."
-  for f in statusline.js statusline.config.example.json scripts/setup.js; do
+  for f in statusline.js scripts/setup.js; do
     curl -fsSL "$RAW/$f" -o "$SRC/$f"
   done
 fi

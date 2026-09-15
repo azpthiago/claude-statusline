@@ -1,5 +1,0 @@
-{
-  "_comentario": "Tetos de tokens usados como 100% nas barras. Ajuste conforme sua cota; use null para exibir o total de tokens em vez de porcentagem.",
-  "weeklyLimitTokens": 200000000,
-  "blockLimitTokens": 40000000
-}

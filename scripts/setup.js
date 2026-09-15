@@ -29,8 +29,9 @@ const PADDING = Number(valueOf('--padding', '0'));
 const CLAUDE_DIR = path.resolve(valueOf('--claude-dir', path.join(os.homedir(), '.claude')));
 const SETTINGS = path.join(CLAUDE_DIR, 'settings.json');
 const TARGET = path.join(CLAUDE_DIR, 'statusline.js');
-const CONFIG = path.join(CLAUDE_DIR, 'statusline.config.json');
 const SRC_DIR = path.resolve(__dirname, '..');
+// resíduos das versões que agregavam transcripts por conta propria
+const LEGACY = [path.join(CLAUDE_DIR, 'statusline-cache.json'), path.join(CLAUDE_DIR, 'statusline.config.json')];
 
 const log = (msg) => console.log((DRY ? '[dry-run] ' : '') + msg);
 const fail = (msg) => {
@@ -79,13 +80,11 @@ function install() {
   log('instalando statusline.js em ' + TARGET);
   if (!DRY) fs.copyFileSync(source, TARGET);
 
-  // a config do usuario nunca e sobrescrita
-  if (fs.existsSync(CONFIG)) {
-    log('mantendo configuracao existente em ' + CONFIG);
-  } else {
-    const example = path.join(SRC_DIR, 'statusline.config.example.json');
-    log('criando configuracao inicial em ' + CONFIG);
-    if (!DRY) fs.copyFileSync(example, CONFIG);
+  for (const f of LEGACY) {
+    if (fs.existsSync(f)) {
+      log('removendo arquivo obsoleto ' + path.basename(f));
+      if (!DRY) fs.unlinkSync(f);
+    }
   }
 
   const settings = readJSON(SETTINGS, {});
@@ -102,7 +101,6 @@ function install() {
 
   console.log('');
   console.log('Pronto. Reinicie o Claude Code para ver a barra.');
-  console.log('Ajuste os tetos de uso em: ' + CONFIG);
 }
 
 function uninstall() {
@@ -119,13 +117,12 @@ function uninstall() {
     log('nenhuma statusLine configurada');
   }
 
-  for (const f of [TARGET, path.join(CLAUDE_DIR, 'statusline-cache.json')]) {
+  for (const f of [TARGET].concat(LEGACY)) {
     if (fs.existsSync(f)) {
       log('removendo ' + f);
       if (!DRY) fs.unlinkSync(f);
     }
   }
-  log('a configuracao em ' + CONFIG + ' foi mantida');
 }
 
 if (UNINSTALL) uninstall();
