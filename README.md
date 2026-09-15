@@ -63,9 +63,10 @@ node scripts/setup.js --dry-run      # mostra o que faria, sem escrever nada
 node scripts/setup.js --padding 1    # recuo lateral da barra (padrão 0)
 node scripts/setup.js --uninstall    # remove a barra e limpa o settings.json
 node scripts/setup.js --claude-dir /caminho/alternativo/.claude
+node scripts/setup.js --no-color     # saida sem cores, para logs e CI
 ```
 
-No PowerShell: `.\install.ps1 -Padding 1`, `.\install.ps1 -Uninstall`, `.\install.ps1 -DryRun`.
+No PowerShell: `.\install.ps1 -Padding 1`, `.\install.ps1 -Uninstall`, `.\install.ps1 -DryRun`, `.\install.ps1 -NoColor`.
 
 O `padding` alinha a barra com o restante do TUI. O padrão `0` acompanha a linha do `auto mode`; use `1` se preferir a barra recuada.
 
